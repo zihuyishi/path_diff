@@ -56,6 +56,6 @@ mod tests {
     #[test]
     fn test_compare_diff_path() {
         let result = file_compare("./Cargo.lock", "./Cargo.toml");
-        assert!(result.unwrap(), false);
+        assert_eq!(result.unwrap(), false);
     }
 }

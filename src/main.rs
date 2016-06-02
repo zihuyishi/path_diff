@@ -2,10 +2,12 @@
 extern crate clap;
 extern crate openssl;
 
+mod path_comparer;
 mod file_comparer;
 
 use std::fs;
 use std::path::Path;
+use path_comparer::{CompareEntry, path_compare};
 
 
 fn main() {
@@ -22,23 +24,17 @@ fn main() {
     let path1 = Path::new(path1);
     let path2 = Path::new(path2);
 
-    let path1_iter = fs::read_dir(path1);
-    let path1_iter = match path1_iter {
-        Ok(rd) => rd,
-        Err(err) => {
-            println!("access {:?} failed with error:\n{}",
-                     path1, err);
-            return ;
-        }
-    };
+    if !path1.is_dir() {
+        println!("{:?} is not a folder", path1);
+        return ;
+    }
+    if !path2.is_dir() {
+        println!("{:?} is not a folder", path2);
+        return ;
+    }
+    let results = path_compare(&path1, &path2);
+    print_results(&results);
+}
 
-    let path2_iter = fs::read_dir(path2);
-    let path2_iter = match path2_iter {
-        Ok(rd) => rd,
-        Err(err) => {
-            println!("access {:?} failed with error:\n{}",
-                     path2, err);
-            return ;
-        }
-    };
+fn print_results(results: &Vec<CompareEntry>) {
 }
