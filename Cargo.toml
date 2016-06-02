@@ -1,0 +1,8 @@
+[package]
+name = "path_diff"
+version = "0.1.0"
+authors = ["lichong <lc@molasync.com>"]
+
+[dependencies]
+clap = {version = "2", features = ["unstable"]}
+openssl = "*"
