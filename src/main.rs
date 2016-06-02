@@ -3,12 +3,10 @@ extern crate clap;
 extern crate openssl;
 
 mod path_comparer;
-mod file_comparer;
+pub mod file_comparer;
 
-use std::fs;
 use std::path::Path;
 use path_comparer::{CompareEntry, path_compare};
-
 
 fn main() {
     let matches = clap_app!(differ_path  => 
@@ -33,8 +31,15 @@ fn main() {
         return ;
     }
     let results = path_compare(&path1, &path2);
-    print_results(&results);
+    match results {
+        Ok(results) => print_results(&results),
+        Err(err) => println!("compare with error:\n{}", err),
+    };
+        
 }
 
 fn print_results(results: &Vec<CompareEntry>) {
+    for entry in results {
+        println!("{}", entry);
+    }
 }
