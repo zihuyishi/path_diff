@@ -21,9 +21,9 @@ pub struct CompareEntry {
 impl Display for CompareEntry {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self.result {
-            CompareResult::LeftHas => writeln!(f, "@- {}\n", self.path.to_str().unwrap()),
-            CompareResult::RightHas => writeln!(f, "@+ {}\n", self.path.to_str().unwrap()),
-            CompareResult::Diff => writeln!(f, "@diff\n{}\n{}\n",
+            CompareResult::LeftHas => writeln!(f, "@only 1: {}", self.path.to_str().unwrap()),
+            CompareResult::RightHas => writeln!(f, "@only 2: {}", self.path.to_str().unwrap()),
+            CompareResult::Diff => writeln!(f, "@diff\n1:{}\n2:{}\n",
                                             self.path.to_str().unwrap(),
                                             self.ano_path.as_ref().unwrap().to_str().unwrap()),
         }
@@ -66,6 +66,7 @@ pub fn path_compare(path1: &Path, path2: &Path) -> Result<Vec<CompareEntry>> {
                                           })
                                           .collect();
     results.append(&mut left);
+
     let mut right: Vec<CompareEntry> = right.into_iter()
                                             .map(|item| {
                                                 CompareEntry {
